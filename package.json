@@ -1,11 +1,13 @@
 {
   "name": "img",
   "version": "1.0.0",
-  "description": "",
+  "description": "Personal image server",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev" : "node index.js"
+    "compress": "node compress-images.js",
+    "dev": "npm run compress",
+    "build": "npm run compress"
   },
   "keywords": [],
   "author": "",
