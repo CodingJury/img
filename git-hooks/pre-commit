@@ -1,0 +1,44 @@
+#!/bin/sh
+
+echo "🔧 Running image compression and JSON generation..."
+echo ""
+
+
+node compress-images.js
+
+
+# Check if the script succeeded
+if [ $? -ne 0 ]; then
+  echo "❌ Compression or JSON generation failed. Commit aborted."
+  exit 1
+fi
+
+
+echo ""
+echo "📝 Here are the files staged for commit (after compression):"
+echo "------------------------------------------------------------"
+git status
+echo "------------------------------------------------------------"
+
+
+# Important! force read from real terminal
+while true; do
+  echo ""
+  echo "✅ Proceed with committing these changes? (y/n): "
+  read -r answer < /dev/tty
+
+  case "$answer" in
+    [yY])
+      echo "✅ Proceeding with commit..."
+      git add --all
+      break
+      ;;
+    [nN])
+      echo "🚫 Commit aborted by user."
+      exit 1
+      ;;
+    *)
+      echo "⚠️  Invalid input. Please type 'y' (yes) or 'n' (no)."
+      ;;
+  esac
+done

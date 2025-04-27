@@ -1,0 +1,38 @@
+#!/bin/sh
+
+echo ""
+echo "🎯 Commit finished successfully!"
+
+# Show last commit details with `git log --stat`
+echo "📝 Last commit details:"
+echo "------------------------------------------------------------"
+git log --stat -n 1
+echo "------------------------------------------------------------"
+
+while true; do
+  echo ""
+  echo "🚀 Do you want to push this commit to 'main' now? (y/n): "
+  read -r push_answer < /dev/tty
+
+  case "$push_answer" in
+    [yY])
+      echo ""
+      echo "🔼 Pushing to main..."
+      git push origin main
+      if [ $? -ne 0 ]; then
+        echo "❌ Push failed!"
+        exit 1
+      else
+        echo "✅ Push successful!"
+        exit 0
+      fi
+      ;;
+    [nN])
+      echo "🚫 Push skipped by user."
+      exit 0
+      ;;
+    *)
+      echo "⚠️  Invalid input. Please type 'y' (yes) or 'n' (no)."
+      ;;
+  esac
+done
